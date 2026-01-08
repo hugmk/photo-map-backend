@@ -41,4 +41,9 @@ export default class PhotosController {
 
     return photo
   }
+
+  async index({ response }: HttpContext) {
+    const photos = await Photo.query().orderBy('created_at', 'desc')
+    return response.ok(photos)
+  }
 }

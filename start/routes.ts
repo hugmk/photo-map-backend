@@ -24,3 +24,4 @@ router.post('/login', [AuthController, 'login'])
 router.post('/logout', [AuthController, 'logout']).use(middleware.auth())
 
 router.post('/photos', [PhotosController, 'store']).use(middleware.auth())
+router.get('/photos', [PhotosController, 'index']).use(middleware.auth())
