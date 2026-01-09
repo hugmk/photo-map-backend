@@ -14,6 +14,8 @@ export default class CommentsController {
       content,
     })
 
+    await comment.preload('user')
+
     return response.created(comment)
   }
 
