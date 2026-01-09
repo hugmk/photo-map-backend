@@ -8,10 +8,16 @@ export default class Comment extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
+  @column({
+    prepare: (value: number) => String(value),
+    consume: (value: string) => Number(value),
+  })
   declare photoId: number
 
-  @column()
+  @column({
+    prepare: (value: number) => String(value),
+    consume: (value: string) => Number(value),
+  })
   declare userId: number
 
   @column()
@@ -20,9 +26,13 @@ export default class Comment extends BaseModel {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    foreignKey: 'userId',
+  })
   declare user: BelongsTo<typeof User>
 
-  @belongsTo(() => Photo)
+  @belongsTo(() => Photo, {
+    foreignKey: 'photoId',
+  })
   declare photo: BelongsTo<typeof Photo>
 }

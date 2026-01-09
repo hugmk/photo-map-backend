@@ -5,10 +5,16 @@ import Comment from './comment.js'
 import User from './user.js'
 
 export default class Photo extends BaseModel {
-  @column()
+  @column({ isPrimary: true })
+  declare id: number
+
+  @column({
+    prepare: (value: number) => String(value), // Convertir en string pour la DB
+    consume: (value: string) => Number(value), // Convertir en number pour le model
+  })
   declare userId: number
 
-  @column()
+  @column({ columnName: 'image_url' })
   declare imageUrl: string
 
   @column()
@@ -17,7 +23,7 @@ export default class Photo extends BaseModel {
   @column()
   declare longitude: number
 
-  @column()
+  @column({ columnName: 'ai_caption' })
   declare aiCaption: string | null
 
   @column.dateTime({ autoCreate: true })
@@ -26,9 +32,13 @@ export default class Photo extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    foreignKey: 'userId',
+  })
   declare user: BelongsTo<typeof User>
 
-  @hasMany(() => Comment)
+  @hasMany(() => Comment, {
+    foreignKey: 'photoId',
+  })
   declare comments: HasMany<typeof Comment>
 }
