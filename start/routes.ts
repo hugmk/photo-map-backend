@@ -12,6 +12,7 @@ import { middleware } from './kernel.js'
 
 const AuthController = () => import('#controllers/auth_controller')
 const PhotosController = () => import('#controllers/photos_controller')
+const CommentsController = () => import('#controllers/comments_controller')
 
 router.get('/', async () => {
   return {
@@ -25,3 +26,6 @@ router.post('/logout', [AuthController, 'logout']).use(middleware.auth())
 
 router.post('/photos', [PhotosController, 'store']).use(middleware.auth())
 router.get('/photos', [PhotosController, 'index']).use(middleware.auth())
+
+router.post('/photos/:id/comments', [CommentsController, 'store']).use(middleware.auth())
+router.get('/photos/:id/comments', [CommentsController, 'index']).use(middleware.auth())
