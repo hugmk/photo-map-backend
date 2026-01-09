@@ -26,6 +26,7 @@ router.post('/logout', [AuthController, 'logout']).use(middleware.auth())
 
 router.post('/photos', [PhotosController, 'store']).use(middleware.auth())
 router.get('/photos', [PhotosController, 'index']).use(middleware.auth())
+router.get('/photos/:id', [PhotosController, 'getPhoto']).use(middleware.auth())
 
 router.post('/photos/:id/comments', [CommentsController, 'store']).use(middleware.auth())
 router.get('/photos/:id/comments', [CommentsController, 'index']).use(middleware.auth())

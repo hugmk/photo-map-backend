@@ -38,4 +38,20 @@ export default class PhotosController {
     const photos = await Photo.query().orderBy('created_at', 'desc')
     return response.ok(photos)
   }
+
+  async getPhoto({ params, response }: HttpContext) {
+    const photo = await Photo.query()
+      .where('id', params.id)
+      .preload('user')
+      .preload('comments', (query) => {
+        query.preload('user').orderBy('created_at', 'asc')
+      })
+      .first()
+
+    if (!photo) {
+      return response.notFound({ message: 'Photo not found' })
+    }
+
+    return photo
+  }
 }
